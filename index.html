@@ -1,23 +1,940 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+
+  <style>
+    /* ----------------------------------------------------------------------- */
+    /* 1. Base Structure and Modern CSS Variables */
+    /* ----------------------------------------------------------------------- */
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --secondary: #0f766e;
+      --secondary-light: #14b8a6;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-soft: #f1f5f9;
+      --accent: #d97706;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      color: var(--text-main);
+      background-color: var(--bg-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ----------------------------------------------------------------------- */
+    /* 2. Layout Structure */
+    /* ----------------------------------------------------------------------- */
+    header, nav, section, footer {
+      max-width: 1200px;
+      margin: 0 auto 24px auto;
+      padding: 32px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      box-sizing: border-box;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+      color: #ffffff;
+      text-align: center;
+      padding: 60px 40px;
+      margin-top: 24px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      letter-spacing: -0.05em;
+      line-height: 1.3;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--bg-card);
+      padding: 12px 24px;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    nav a {
+      color: var(--text-main);
+      padding: 10px 16px;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    nav a:hover {
+      background-color: var(--bg-soft);
+      color: var(--primary-light);
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-color);
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-top: 28px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+      color: #334155;
+    }
+
+    /* Highlight class */
+    .highlight-text {
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+
+    .accent-text {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ----------------------------------------------------------------------- */
+    /* 3. Content Cards & Layout Components */
+    /* ----------------------------------------------------------------------- */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .info-card {
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      border-radius: 12px;
+      background: var(--bg-card);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
+    }
+
+    .info-card h4 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .banner-box {
+      background-color: var(--bg-soft);
+      border-left: 4px solid var(--secondary);
+      padding: 20px;
+      border-radius: 4px 12px 12px 4px;
+      margin-bottom: 24px;
+    }
+
+    /* ----------------------------------------------------------------------- */
+    /* 4. Tables and Charts */
+    /* ----------------------------------------------------------------------- */
+    .table-container {
+      overflow-x: auto;
+      margin-bottom: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: var(--bg-soft);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    tr:hover {
+      background-color: rgba(59, 130, 246, 0.02);
+    }
+
+    /* Custom CSS Visual Chart */
+    .chart-container {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .chart-row {
+      margin-bottom: 16px;
+    }
+
+    .chart-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .chart-bar-wrapper {
+      background: #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 24px;
+      display: flex;
+    }
+
+    .chart-bar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .bar-1st { width: 90%; background-color: var(--primary); }
+    .bar-2nd { width: 80%; background-color: var(--primary-light); }
+    .bar-3rd { width: 70%; background-color: var(--secondary); }
+    .bar-4th { width: 70%; background-color: var(--secondary-light); }
+    .bar-5th { width: 50%; background-color: var(--accent); }
+
+    /* ----------------------------------------------------------------------- */
+    /* 5. Custom Form (Silbi Premium & Copay Calculator) */
+    /* ----------------------------------------------------------------------- */
+    .calculator-section {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid var(--primary-light);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #ffffff;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-soft);
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .radio-item input {
+      margin: 0;
+    }
+
+    .btn-calc {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-calc:hover {
+      background: var(--primary-light);
+    }
+
+    /* Result Panel */
+    .result-panel {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 24px;
+      display: none;
+    }
+
+    .result-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #166534;
+      margin-top: 0;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #dcfce7;
+      padding-bottom: 8px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ----------------------------------------------------------------------- */
+    /* 6. FAQ Block */
+    /* ----------------------------------------------------------------------- */
+    .faq-container {
+      margin-top: 24px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: 20px 0;
+    }
+
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .faq-answer {
+      color: #334155;
+      font-size: 1rem;
+      padding-left: 12px;
+      border-left: 3px solid var(--secondary-light);
+    }
+
+    /* ----------------------------------------------------------------------- */
+    /* 7. Footer */
+    /* ----------------------------------------------------------------------- */
+    footer {
+      background: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 40px;
+      font-size: 0.9rem;
+      border-radius: 16px 16px 0 0;
+      margin-bottom: 0;
+    }
+
+    footer a {
+      color: #cbd5e1;
+      text-decoration: underline;
+    }
+
+    footer a:hover {
+      color: #ffffff;
+    }
+  </style>
+
+  <!-- JSON-LD Schema (Structured Data for SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalBusiness",
+        "@id": "https://medical.reliabledone.com/mri-reimbursement-guide",
+        "name": "MRI 실비 보험 비교 및 연령별 한도 안내 가이드",
+        "image": "https://medical.reliabledone.com/images/mri-banner.png",
+        "telephone": "1588-0000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "서울특별시 중구 세종대로 123",
+          "addressLocality": "서울",
+          "addressRegion": "서울특별시",
+          "postalCode": "04500",
+          "addressCountry": "KR"
+        },
+        "url": "https://medical.reliabledone.com/mri-reimbursement-guide"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "MRI 검사 비용은 실비보험에서 얼마나 환급받을 수 있나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "MRI 검사는 질병 치료 목적으로 의사의 의학적 소견이 있을 때 실비보험 보장이 가능합니다. 가입한 보험의 세대에 따라 환급율과 자기부담금이 상이합니다. 1세대 및 2세대 실비보험은 입원 시 최대 90%에서 100%까지 보장하나 통원 시 한도(통상 20~25만원)가 존재합니다. 3세대 및 4세대 실손의료보험은 비급여 MRI 특약 가입 시 연간 300만원 한도 내에서 자기부담금 30%를 공제한 나머지 금액을 돌려받을 수 있습니다. 2026년에 도입된 5세대 실손보험의 경우 중증질환 여부에 따라 30%에서 50%까지 자기부담금이 세분화됩니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "외래 통원으로 MRI를 찍는 것과 입원해서 찍는 것의 비용 차이가 큰가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "외래 통원 시에는 가입된 실손보험의 통원 의료비 한도(보통 1일당 20만~25만원)까지만 보장되므로, MRI 촬영 비용이 50만~80만원일 경우 초과분은 본인이 부담해야 합니다. 반면, 의사의 소견에 따라 하루 이상 입원하거나 낮병동에 입원하여 검사할 경우, 입원의료비 한도(최대 5,000만원)가 적용되어 세대에 따라 본인부담금 10%~30%를 제외한 금액을 폭넓게 보장받을 수 있어 실제 환자가 지출하는 예상 비용이 크게 줄어듭니다."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header id="top">
+    <h1>2026년 MRI 실비 보험 적용 가이드 및 연령별 맞춤 비교 견적</h1>
+    <p>어렵고 복잡한 MRI 비급여 검사 비용, 내 실손 세대별 실제 본인부담금과 환급 한도를 계산기로 간편하게 진단해 보세요.</p>
+  </header>
+
+  <nav>
+    <a href="#intro-section">MRI 실비 개요</a>
+    <a href="#generation-section">세대별 보장 비교</a>
+    <a href="#hospitalization-section">통원 vs 입원 전략</a>
+    <a href="#demographics-section">연령별 가이드</a>
+    <a href="#cost-section">병원급별 예상 비용</a>
+    <a href="#calc-section">실비 모의 계산기</a>
+    <a href="#community-section">정보 및 팁</a>
+    <a href="#faq-section">자주 묻는 질문</a>
+  </nav>
+
+  <!-- Section 1: Introduction to MRI Silbi -->
+  <section id="intro-section" aria-label="MRI 실비 개요">
+    <h2>갑작스러운 정밀 검사, MRI실비 보험으로 부담을 줄이려면?</h2>
+    <div class="banner-box">
+      <p>의사의 소견 하에 치료를 목적으로 시행되는 자기공명영상(MRI) 촬영은 암, 뇌혈관 질환, 디스크, 관절 파열 등 다양한 정밀 진단에 필수적인 검사입니다. 그러나 MRI 촬영 비용은 비급여 항목으로 분류되는 경우가 많아 병원마다 금액이 천차만별이며 수십만 원에 달하는 비용은 환자들에게 상당한 부담을 줍니다. 이때 본인이 가입한 <strong>실손의료보험(실비보험)</strong>의 적용 범위를 정확하게 알고 있으면 실제 본인부담금을 획기적으로 낮출 수 있습니다.</p>
+    </div>
+    
+    <p>가장 중요한 전제 조건은 단순한 건강 검진이나 미용, 예방 목적의 촬영이 아니어야 한다는 점입니다. 즉, 담당 전문의의 명확한 의학적 소견(질병 의심 또는 통증 원인 규명을 위한 검사 필요성 등)에 의해 처방된 치료 목적의 검사여야 실비 청구가 가능합니다.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>국민건강보험 급여 MRI</h4>
+        <p>암, 뇌혈관질환, 심장질환 등 산정특례 적용을 받는 중증 질환이 의심되거나 특정 인정 기준에 부합할 경우 국민건강보험공단에서 비용을 지원합니다. 이 경우 가입 시기와 관계없이 모든 실손보험에서 급여 본인부담금 내에서 정상 환급을 받을 수 있습니다.</p>
+      </div>
+      <div class="info-card">
+        <h4>비급여 MRI</h4>
+        <p>건강보험이 적용되지 않아 개인이 전액 부담해야 하는 항목입니다. 가입 시점(세대별 구분)에 따라 비급여 MRI의 보장 구조와 자기부담률이 완전히 다르므로 가입자가 본인의 약관을 직접 짚어보는 컨설팅 상담 과정이 필수적입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Generation Comparison (1st to 5th) -->
+  <section id="generation-section" aria-label="실비 세대별 보장 비교">
+    <h2>1세대부터 5세대까지, 실손 보험 가입 시기별 차이점 분석</h2>
+    <p>실손보험은 가입한 시기에 따라 크게 1세대에서 최근 개정 논의가 진행된 5세대까지로 나뉩니다. 내가 가입한 상품 종류 및 브랜드와 갱신 연도에 따라 실제로 보장받을 수 있는 금액과 공제금액이 판이하므로 아래 세부 내용을 대조해 보시기 바랍니다.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>가입 시기</th>
+            <th>비급여 MRI 보장 구조</th>
+            <th>자기부담금 및 공제 금액</th>
+            <th>연간 보상 한도</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1세대 실비</strong></td>
+            <td>2009년 9월 이전</td>
+            <td>통원/입원 한도 내 보장 (급여·비급여 미분류)</td>
+            <td>자기부담금 거의 없음 (0% ~ 10% 전후)</td>
+            <td>통원 한도 내 지급 (통상 1회당 20만~25만 원)</td>
+          </tr>
+          <tr>
+            <td><strong>2세대 실비</strong></td>
+            <td>2009년 10월 ~ 2017년 3월</td>
+            <td>표준화 실손의료비 통합 보장</td>
+            <td>선택형 기준 비급여 20% 본인 부담</td>
+            <td>외래 통원 한도(통상 20만~25만 원) 초과 불가</td>
+          </tr>
+          <tr>
+            <td><strong>3세대 실비</strong></td>
+            <td>2017년 4월 ~ 2021년 6월</td>
+            <td>비급여 3대 특약으로 별도 분리</td>
+            <td>1회당 2만 원과 치료비의 30% 중 큰 금액 공제</td>
+            <td>연간 300만 원 (횟수 제한 없음)</td>
+          </tr>
+          <tr>
+            <td><strong>4세대 실비</strong></td>
+            <td>2021년 7월 ~ 2026년 현재</td>
+            <td>비급여 의료비 독립 특약 구조</td>
+            <td>급여 20%, 비급여 30% 본인 부담 적용</td>
+            <td>연간 300만 원 (개인 비급여 청구량에 따라 요금 할증)</td>
+          </tr>
+          <tr>
+            <td><strong>5세대 실비</strong></td>
+            <td>2026년 5월 이후 신규</td>
+            <td>중증 및 비중증 MRI 특약 이원화</td>
+            <td>중증 30%, 비중증 50% 수준의 차등 적용</td>
+            <td>연간 200만~300만 원 한도 축소 적용</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-container">
+      <h3>세대별 MRI 비급여 의료비 최대 보장 비율 비교</h3>
+      <div class="chart-row">
+        <div class="chart-label">1세대 실비보험 (보장률 90% 이상)</div>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar bar-1st">90%</div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">2세대 표준화 실손 (보장률 80%)</div>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar bar-2nd">80%</div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">3세대 실손 특약 (보장률 70%)</div>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar bar-3rd">70%</div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">4세대 다이렉트 실손 (보장률 70%)</div>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar bar-4th">70%</div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">5세대 최신 실손 (비중증 기준 보장률 50%)</div>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar bar-5th">50%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Outpatient vs Hospitalization Strategy -->
+  <section id="hospitalization-section" aria-label="통원 vs 입원 보장 전략">
+    <h2>통원으로 찍으면 수십만 원 손해? 외래 통원과 입원 검사의 중대한 차이점</h2>
+    <p>MRI실비 청구를 염두에 두고 계신 가입자들이 반드시 명심해야 할 개념이 바로 <strong>외래 통원과 입원의 차이점</strong>입니다. 많은 환자들이 검사를 신청하는 과정에서 이 조건을 정확히 숙지하지 못해 수십만 원 상당의 사비를 추가 지출하곤 합니다.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>외래 통원으로 촬영할 경우</h4>
+        <p>1세대 및 2세대 가입자의 경우 비급여 MRI가 일반 통원의료비 한도로 묶여 있습니다. 통상적인 하루 외래 통원 한도는 20만 원에서 25만 원 수준입니다. 촬영 비용이 50만 원에서 80만 원 선에서 청구된다면, 실비에서 보장하는 20만~25만 원 한도를 공제한 나머지 금액(최대 55만 원 이상)은 고스란히 개인이 부담해야 하므로 장단점 중 명백한 단점으로 작용합니다.</p>
+      </div>
+      <div class="info-card">
+        <h4>의사 소견 하에 입원 촬영할 경우</h4>
+        <p>질병으로 인해 하루(6시간 이상 체류하여 낮병동에 머무는 조건 포함) 입원 처리가 필요하다는 전문의 처방이 있을 때 검사를 받게 되면 입원의료비 한도가 적용됩니다. 입원 실비 한도는 가입 시기별로 최대 5,000만 원까지 보장하므로, 촬영 가격이 얼마이든 본인부담금 비율(10%~30%)에 따른 소액 공제금만 제외하고 최대 금액을 전액 보장받는 혜택을 얻게 됩니다.</p>
+      </div>
+    </div>
+
+    <div class="banner-box">
+      <p>주의할 점은 무조건적인 입원 촬영 고집은 오히려 보험금 지급 거절의 사유가 된다는 점입니다. 금융감독원 및 보험사에서는 치료 및 정밀 진단을 위한 치료 목적상 불가피하게 입원이 필요했다는 객관적인 소견서가 입증되지 않을 시, 단순한 편의나 입원 한도를 부당하게 노린 입원 검사에 대해 엄격히 모니터링하여 부지급 결정을 내리고 있습니다. 사전에 전문 상담 컨설팅이나 주치의와의 심도 깊은 상의를 거쳐 올바른 절차로 신청하시는 방법을 추천해 드립니다.</p>
+    </div>
+  </section>
+
+  <!-- Section 4: Demographic Guide -->
+  <section id="demographics-section" aria-label="연령별 가이드">
+    <h2>연령별/세대별 MRI 실비보험 가입 가이드 및 맞춤 요금 분석</h2>
+    <p>사람은 생애 주기에 따라 빈발하는 질병과 그에 따른 정밀 촬영 수요가 점진적으로 달라집니다. 본인 혹은 가족 구성원의 건강 관리를 위해 실선 요금제와 보장 범위를 함께 고민해 보시는 것을 적극 추천합니다.</p>
+
+    <h3>1. 소아청소년 및 청년층 (영유아 실비보험 및 10대~20대)</h3>
+    <p>어린 자녀들을 위한 <strong>영유아 실비보험</strong>, <strong>소아 실손</strong>, <strong>청소년 실비보험</strong> 시기는 주로 선천성 질환이나 활동량이 증가함에 따라 발생할 수 있는 외상, 성장판 정밀 검진 등 발달 과정에서의 MRI 활용도가 높습니다. 이때 미리 준비해 두면 비교적 저렴한 요금제 혜택으로 가입을 길게 유지할 수 있는 장점이 있습니다.</p>
+    <p><strong>20대 실비보험</strong>, <strong>20대 남성 실손</strong>, <strong>20대 여성 실비</strong>, 그리고 대학을 다니는 <strong>대학생 실손보험</strong> 및 막 취업을 한 <strong>사회초년생 실비</strong> 가입자들의 경우 스포츠 활동으로 인한 발목 관절, 십자인대, 손목 손상 등으로 MRI 검사 비용 견적을 조회하는 빈도가 빈번합니다. 상대적으로 병원 방문율이 낮고 가입에 무리가 없기 때문에 다이렉트 가입 상품 중 싼곳이나 최저가 브랜드를 비교하여 현명한 사이트 성지 좌표를 추천받는 것이 가격면에서 가장 효율적인 선택입니다.</p>
+
+    <h3>2. 경제적 황금기 및 중장년층 (30대~50대)</h3>
+    <p>가장 활발히 활동하고 가정을 꾸려나가는 <strong>30대 실비</strong>, <strong>30대 남성 보험</strong>, <strong>30대 여성 실비보험</strong>, <strong>신혼부부 실손보험</strong> 단계부터는 업무 피로와 일상 척추 요통, 산후 관절염 등으로 인해 디스크 진단을 받으면서 예상치 못한 목, 허리 MRI 비용을 처음 접하게 되는 경우가 많습니다. 또한 가족을 부양하는 <strong>직장인 실손</strong> 및 가사를 책임지는 <strong>주부 실비보험</strong>의 가치가 강조되는 연령입니다.</p>
+    <p>중년으로 도달하는 <strong>40대 실비보험</strong>, <strong>40대 남성 실손보험</strong>, <strong>40대 여성 추천</strong> 가입자뿐만 아니라 노후 질환의 초기 징후가 나타나는 <strong>중장년층 실비</strong> 군에서는 퇴행성 관절염, 두통, 현기증 진단에 따른 뇌혈관 정밀 MRI 수요가 증가합니다. 갱신 요금 인상폭의 부담을 감안하여 보장 한도와 연간 부담 비용을 계산기를 활용해 수시로 관리해 보셔야 합니다.</p>
+    <p>갱신 주기 압박이 강해지는 <strong>50대 실비보험</strong>, <strong>50대 남성 실손</strong>, <strong>50대 여성 실비</strong> 단계는 본격적으로 만성 질환이 누적되는 시기이며, 자녀들이 부모님 실손을 대신 알아보는 비율이 제일 높은 시기이기도 합니다. 이미 기왕력이 있는 분들은 유병자 실손의 대안을 적극 검토해야 합니다.</p>
+
+    <h3>3. 노후 준비 및 실버층 (60대 이상 시니어 및 고령자)</h3>
+    <p>질병 위험률이 최고조에 달하는 <strong>60대 실비</strong>, <strong>60대 부모님 실손</strong> 단계와 고령층인 <strong>70대 실비보험</strong>, <strong>70대 남성 실손</strong>, <strong>70대 여성 보험</strong> 영역은 일반 실손 가입 승인이 다소 불리해질 수 있으므로 간소화된 <strong>유병자 실비보험</strong>, <strong>노후 실손의료보험</strong>, 혹은 실버 세대를 전문 타깃으로 삼는 <strong>시니어 실손</strong>과 <strong>은퇴자 실손</strong> 중에서 실손의 한도를 꼼꼼히 체크해 보셔야 합니다. 비급여 항목의 한도 보장이 연령에 따라 부분 축소되는 단점이 발생할 수 있어 보상 요금 범위가 합리적인 최저가 전문 업체를 정하는 것이 중요합니다.</p>
+  </section>
+
+  <!-- Section 5: Cost Analysis and Hospital Grade -->
+  <section id="cost-section" aria-label="병원급별 예상 비용">
+    <h2>전국 병원 종별 MRI 촬영 예상 비용 및 급여 적용 여부</h2>
+    <p>MRI실비 금액을 청구하기 앞서 실제 의료기관의 규모별로 어느 정도의 비용이 소요되는지 참고할 수 있도록 평균 데이터를 제시합니다. 2026년도 비급여 가격 현황을 기준으로 한 개괄적 예측 수치입니다.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>병원 구분</th>
+            <th>대표 검사 부위</th>
+            <th>비급여 평균 예상 금액</th>
+            <th>실손 비급여 특약 환급 시 예상 (자기부담 30% 가정)</th>
+            <th>본인 부담 실질 비용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>동네 의원급 (로컬클리닉)</td>
+            <td>근골격계 (무릎, 어깨)</td>
+            <td>350,000 원 ~ 450,000 원</td>
+            <td>245,000 원 ~ 315,000 원 환급</td>
+            <td>약 105,000 원 ~ 135,000 원</td>
+          </tr>
+          <tr>
+            <td>일반 중소 병원</td>
+            <td>척추, 경추 (목, 허리 디스크)</td>
+            <td>400,000 원 ~ 550,000 원</td>
+            <td>280,000 원 ~ 385,000 원 환급</td>
+            <td>약 120,000 원 ~ 165,000 원</td>
+          </tr>
+          <tr>
+            <td>종합병원</td>
+            <td>뇌, 복부, 정밀 조영검사</td>
+            <td>500,000 원 ~ 700,000 원</td>
+            <td>350,000 원 ~ 490,000 원 환급</td>
+            <td>약 150,000 원 ~ 210,000 원</td>
+          </tr>
+          <tr>
+            <td>대학병원 (상급종합병원)</td>
+            <td>전신, 암, 희귀 혈관 정밀</td>
+            <td>750,000 원 ~ 950,000 원</td>
+            <td>525,000 원 ~ 665,000 원 환급</td>
+            <td>약 225,000 원 ~ 285,000 원</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>보건복지부 고시에 의거하여 두통이나 어지럼증 등 명확한 신경학적 원인 규명이 필요한 뇌 MRI나 암으로 진단된 산정특례 자격 환자의 경우 건강보험 급여 기준이 확대 적용될 수 있습니다. 이 점을 내원 전에 미리 파악하시기 바랍니다.</p>
+  </section>
+
+  <!-- Section 6: Interactive Calculator Block (Increases Dwell Time) -->
+  <section id="calc-section" class="calculator-section" aria-label="실비 모의 계산기">
+    <h2>나의 MRI 실비 보험 본인부담금 모의 계산기</h2>
+    <p>본인의 세대별 조건, 입원 여부, 병원 종류 및 예상 검사 비용을 아래 입력창에 넣으면 실제 예상 환급금과 자가 부담 금액을 간편하게 사전 시뮬레이션해 줍니다.</p>
+
+    <div class="calculator-grid">
+      <div>
+        <div class="form-group">
+          <label for="calc-age">가입자 연령대</label>
+          <select id="calc-age" class="form-control">
+            <option value="youth">소아 및 20대 이하</option>
+            <option value="prime" selected>30대 ~ 40대 중장년층</option>
+            <option value="silver">50대 ~ 60대 이상 실버</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>실손보험 가입 세대 선택</label>
+          <select id="calc-gen" class="form-control">
+            <option value="1st">1세대 실비 (2009년 9월 이전 가입)</option>
+            <option value="2nd">2세대 실비 (2009년 10월 ~ 2017년 3월 가입)</option>
+            <option value="3rd">3세대 실비 (2017년 4월 ~ 2021년 6월 가입)</option>
+            <option value="4th" selected>4세대 실비 (2021년 7월 ~ 현재 가입)</option>
+            <option value="5th">5세대 실비 (2026년 5월 이후 최신 출시 모델)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>검사 형태 선택</label>
+          <div class="radio-group">
+            <label class="radio-item">
+              <input type="radio" name="calc-visit" value="outpatient" id="calc-visit-out" checked> 외래 통원 검사
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="calc-visit" value="admission" id="calc-visit-adm"> 1일 이상 또는 당일 입원 검사
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="calc-mri-type">MRI 분류 형태</label>
+          <select id="calc-mri-type" class="form-control">
+            <option value="nonsevere" selected>비중증 MRI (단순 근골격 통증, 정밀 진단)</option>
+            <option value="severe">중증 MRI (암, 뇌혈관 질환, 심장 등 산정특례 대상)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="calc-hospital">방문 의료기관 규모</label>
+          <select id="calc-hospital" class="form-control">
+            <option value="clinic">로컬 의원</option>
+            <option value="hospital">중소 병원</option>
+            <option value="general" selected>종합병원</option>
+            <option value="advanced">상급종합병원 (대학병원)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="calc-cost">MRI 촬영 예상 비용 입력 (원 단위)</label>
+          <input type="number" id="calc-cost" class="form-control" placeholder="예: 500000" value="500000">
+        </div>
+
+        <div class="form-group">
+          <label for="calc-prior">금년도 기존 비급여 MRI 보상 횟수 및 청구 누적액</label>
+          <select id="calc-prior" class="form-control">
+            <option value="none" selected>없음 (올해 첫 비급여 정밀 청구)</option>
+            <option value="under150">누적 청구액 150만 원 미만</option>
+            <option value="over300">누적 청구액 300만 원 이상 (할증 구간 주의)</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-calc" onclick="calculateSilbi()">모의 계산 신청 및 분석하기</button>
+      </div>
+
+      <div>
+        <div id="calc-results-box" class="result-panel">
+          <div class="result-title">실시간 모의 분석 진단 결과</div>
+          <div class="result-row">
+            <span>입력한 총 촬영 금액:</span>
+            <span id="result-total" class="result-value">0 원</span>
+          </div>
+          <div class="result-row">
+            <span>나의 예상 자기부담금:</span>
+            <span id="result-copay" class="result-value" style="color: var(--accent);">0 원</span>
+          </div>
+          <div class="result-row">
+            <span>보험사 예상 지급액 (환급금):</span>
+            <span id="result-reimbursement" class="result-value" style="color: var(--secondary);">0 원</span>
+          </div>
+          <div class="banner-box" style="margin-top: 16px; font-size: 0.9rem; color: var(--text-main);">
+            <p id="result-msg">정보를 입력하고 분석하기 버튼을 클릭해 주세요.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Community Analysis and Digital Channel Tips -->
+  <section id="community-section" aria-label="커뮤니티 및 정보 채널 분석">
+    <h2>온라인 커뮤니티 및 소셜 채널을 통한 실손 팁과 부작용 대처법</h2>
+    <p>소비자들이 실제 의료 현장에서 느낀 실전 경험담은 다양한 디지털 소통 채널을 통해 공유되고 있습니다. 각 채널의 성격을 비교하며 지혜롭게 정보를 취사선택해야 합니다.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>커뮤니티 실 사용 담화 분석</h4>
+        <p>인터넷 커뮤니티인 <strong>디시</strong> 인사이드 실비 보험 갤러리를 비롯해 <strong>보배드림</strong>, <strong>펨코</strong> 및 <strong>에펨코리아</strong> 등 종합 커뮤니티 공간에서는 MRI 촬영 시 주치의 진료 소견 작성 노하우 및 보험금 청구 거절 사태 방지 요령에 대한 거친 후기와 상세 좌표 등이 꾸준히 화제가 됩니다. 실제 내돈내산 후기들을 읽어보면 어떤 정형외과나 병원이 친절하고 꼼꼼하게 청구 절차 서류를 준비해 주는지 성지 정보를 파악하기에 용이합니다.</p>
+      </div>
+      <div class="info-card">
+        <h4>디지털 SNS 정보 활용</h4>
+        <p><strong>네이버</strong> 블로그, <strong>구글</strong> 검색 결과 분석뿐만 아니라 시각성이 강한 <strong>유튜브</strong>, <strong>인스타그램</strong>, <strong>페이스북</strong>, 그리고 빠른 단문 형태인 <strong>트위터</strong>에서는 보상금 수령 팁이 영상 이미지 포맷으로 상세 가이드됩니다. <strong>카카오톡</strong> 오픈 채팅방이나 <strong>텔레그램</strong> 금융 소통방을 활용해서도 여러 가입 희망자들과 경험담을 공유하는 컨설팅이 가능합니다.</p>
+      </div>
+    </div>
+
+    <div class="banner-box">
+      <p>온라인 신규 비대면 가입 과정에서 과다하게 지급하는 불법 사은품, 현금지원, 부정한 방법의 지원금이나 상품권 이벤트 제안은 금융감독원의 모집 질서 규범에 위배될 우려가 존재하므로 무조건 저렴한곳만을 탐색하여 정체불명의 비공식 사이트에서 계약을 진행하기보다는, 신뢰성 있는 전문 제도를 바탕으로 한 공인 법인 업체의 공식 고객센터를 경유하여 투명한 혜택을 밟는 것이 사후 관리에 최고입니다.</p>
+      <p>또한 최근 각광받는 인공지능 보조 도구인 <strong>제미나이</strong>, <strong>챗지피티</strong> 같은 <strong>AI</strong> 엔진이나 대형 금융 핀테크 플랫폼 <strong>토스</strong> 앱의 내 보험 찾기 분석 어플 모듈을 적절히 사용해 사전에 청구 가능성을 가늠해 보는 것도 시대 변화에 발맞춘 지혜로운 방법입니다.</p>
+    </div>
+  </section>
+
+  <!-- Section 8: FAQ Panel (Structured FAQ) -->
+  <section id="faq-section" aria-label="자주 묻는 질문">
+    <h2>MRI 실비 청구 관련 자주 묻는 질문 FAQ</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">Q1. 의사 진단 없이 단순 정기 검진으로 촬영한 비급여 MRI도 실비 환급이 가능한가요?</div>
+        <div class="faq-answer">
+          A1. 불가합니다. 실손의료비는 질병의 예방이나 단순 건강 확인 목적의 검사는 약관상 보상하지 않는 사항으로 엄격하게 규정되어 있습니다. 주치의 진료 결과 환자 상태상 의학적인 관찰과 정밀 판단을 위해 촬영을 필히 행해야 한다는 요건이 입증될 때에 한해서 실비 혜택 청구가 승인됩니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q2. 조영제나 판독료 등 검사에 부수적으로 드는 제반 비용도 환급 대상이 되나요?</div>
+        <div class="faq-answer">
+          A2. 네, 그렇습니다. MRI 검사에 수반된 조영제 투약 요금과 판독 의사의 검진 판독 비용 등 실제 촬영 절차에 불가분하게 연계된 비용은 비급여 자기공명영상진단 의료비 한도 내에 합산하여 함께 심사받을 수 있습니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q3. 4세대 혹은 5세대 다이렉트 실손 가입 시 비급여 청구를 많이 하면 보험료가 할증되나요?</div>
+        <div class="faq-answer">
+          A3. 그렇습니다. 4세대 실손의 비급여 특약의 경우 당해 연도 총비급여 지급액에 따라 다섯 단계로 세분화된 차등제를 시행하고 있습니다. 연간 비급여 수령액이 100만 원 미만이면 원래 상태가 유지되지만, 100만 원 이상부터 단계별 할증이 적용되며 300만 원 이상을 청구하면 최고 300%에 달하는 보험료 할증 불이익이 주어집니다. 단, 암이나 뇌혈관 질환과 같은 중증 산정특례자는 차등제 할증 대상에서 원칙적으로 면제됩니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q4. 실비 청구에 필요한 증빙 서류는 주로 어떤 것이 있나요?</div>
+        <div class="faq-answer">
+          A4. 병원 원무과에서 쉽게 발급받을 수 있는 진료비 영수증, 비급여 내용이 기재된 진료비 세부내역서, 그리고 치료 목적이었음을 입증할 수 있는 의사 소견서 또는 진단서가 기본 서류가 됩니다. 제출은 각 보험사 전용 앱이나 모바일 어플 전송 방식을 이용하면 지점 방문 필요 없이 빠르게 진행할 수 있습니다.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: Highly Trustworthy Official Links -->
+  <section id="resource-section" aria-label="추가 리소스 및 공인 외부 링크">
+    <h2>신뢰할 수 있는 기관의 정보 확인 및 공식 외부 채널</h2>
+    <p>실손보험 구조조정 및 본인부담제 변화와 관련된 보다 자세한 거시적 정보는 공신력 있는 국가 공인 채널과 학문 리소스를 통해 객관적으로 교차 검색해 보실 수 있습니다.</p>
+    <ul>
+      <li><a href="https://silbiitopbohumo.directreliable.com" target="_blank" rel="noopener">실손보장 정보연구소 (reliabledone.com)</a> - MRI 보장 개정 약관 및 상세 변동 추이 요약 리포트</li>
+      <li><a href="https://namu.wiki/w/%EC%8B%A4%EC%86%90%EC%9D%98%EB%A3%8C%EB%B3%B4%ED%97%98" target="_blank" rel="noopener">나무위키 - 실손의료보험 가이드</a> - 세대별 실손 정책 역사 및 비급여의 사회과학적 전개 과정</li>
+      <li><a href="https://www.hira.or.kr" target="_blank" rel="noopener">건강보험심사평가원 (HIRA)</a> - 전국 비급여 진료비 정보 확인 및 가격 비교 검색 서비스</li>
+    </ul>
+  </section>
+
+  
+  <script>
+    function calculateSilbi() {
+      const gen = document.getElementById('calc-gen').value;
+      const visitType = document.querySelector('input[name="calc-visit"]:checked').value;
+      const mriType = document.getElementById('calc-mri-type').value;
+      const cost = parseFloat(document.getElementById('calc-cost').value) || 0;
+
+      if (!cost || cost <= 0) {
+        alert('촬영 예상 비용을 올바르게 입력해 주세요.');
+        return;
+      }
+
+      let copay = 0;
+      let reimbursement = 0;
+      let limit = 0;
+      let message = '';
+
+      if (gen === '1st') {
+        copay = cost * 0.1;
+        limit = visitType === 'admission' ? 50000000 : 250000;
+      } else if (gen === '2nd') {
+        copay = cost * 0.2;
+        limit = visitType === 'admission' ? 50000000 : 250000;
+      } else if (gen === '3rd') {
+        copay = Math.max(20000, cost * 0.3);
+        limit = 3000000;
+      } else if (gen === '4th') {
+        copay = Math.max(30000, cost * 0.3);
+        limit = 3000000;
+      } else if (gen === '5th') {
+        const copayRate = (mriType === 'severe') ? 0.3 : 0.5;
+        copay = Math.max(30000, cost * copayRate);
+        limit = (mriType === 'severe') ? 3000000 : 2000000;
+      }
+
+      if (visitType === 'outpatient') {
+        if (gen === '1st' || gen === '2nd') {
+          const allowed = cost - copay;
+          if (allowed > limit) {
+            reimbursement = limit;
+            copay = cost - limit;
+            message = '외래 통원 검사 한도(통상 25만 원 내외)를 초과하여 본인부담금 금액이 커집니다. 담당 의사의 입원 치료 처방 조건이 되는지 소견서를 적극 확인해보시기 권고 드립니다.';
+          } else {
+            reimbursement = allowed;
+          }
+        } else {
+          reimbursement = cost - copay;
+          if (reimbursement > limit) {
+            reimbursement = limit;
+            copay = cost - limit;
+            message = '해당 세대 비급여 특약의 연간 총 보장 한도를 초과하여 전액 환급이 어려울 수 있습니다.';
+          }
+        }
+      } else {
+        reimbursement = cost - copay;
+        if (reimbursement > limit) {
+          reimbursement = limit;
+          copay = cost - limit;
+        }
+      }
+
+      if (reimbursement < 0) {
+        reimbursement = 0;
+        copay = cost;
+      }
+
+      document.getElementById('result-total').innerText = Math.round(cost).toLocaleString() + ' 원';
+      document.getElementById('result-copay').innerText = Math.round(copay).toLocaleString() + ' 원';
+      document.getElementById('result-reimbursement').innerText = Math.round(reimbursement).toLocaleString() + ' 원';
+      
+      if (!message) {
+        message = '정상적으로 모의 진단이 완료되었습니다. 질병코드 발급 조건이나 상세 특약 담보 유무에 따라 개별 차이가 존재하므로 세부 계약을 조회하시는 방법을 권고합니다.';
+      }
+      document.getElementById('result-msg').innerText = message;
+      document.getElementById('calc-results-box').style.display = 'block';
+    }
+  </script>
+  
